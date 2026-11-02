@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { test as base, type Page } from '@playwright/test';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
 import { CheckoutInformationPage } from '../pages/CheckoutInformationPage';
@@ -6,7 +6,7 @@ import { CheckoutOverviewPage } from '../pages/CheckoutOverviewPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { LoginPage } from '../pages/LoginPage';
 
-type Pages = {
+type PageFixtures = {
   loginPage: LoginPage;
   inventoryPage: InventoryPage;
   cartPage: CartPage;
@@ -15,14 +15,18 @@ type Pages = {
   checkoutCompletePage: CheckoutCompletePage;
 };
 
-/** Extends Playwright's test so specs receive ready-made page objects as fixtures. */
-export const test = base.extend<Pages>({
-  loginPage: async ({ page }, use) => use(new LoginPage(page)),
-  inventoryPage: async ({ page }, use) => use(new InventoryPage(page)),
-  cartPage: async ({ page }, use) => use(new CartPage(page)),
-  checkoutInformationPage: async ({ page }, use) => use(new CheckoutInformationPage(page)),
-  checkoutOverviewPage: async ({ page }, use) => use(new CheckoutOverviewPage(page)),
-  checkoutCompletePage: async ({ page }, use) => use(new CheckoutCompletePage(page)),
-});
+/** Builds a fixture that hands the test a page object bound to the test's page. */
+function pageObject<T>(PageObject: new (page: Page) => T) {
+  return async ({ page }: { page: Page }, use: (pageObject: T) => Promise<void>) => {
+    await use(new PageObject(page));
+  };
+}
 
-export { expect } from '@playwright/test';
+export const test = base.extend<PageFixtures>({
+  loginPage: pageObject(LoginPage),
+  inventoryPage: pageObject(InventoryPage),
+  cartPage: pageObject(CartPage),
+  checkoutInformationPage: pageObject(CheckoutInformationPage),
+  checkoutOverviewPage: pageObject(CheckoutOverviewPage),
+  checkoutCompletePage: pageObject(CheckoutCompletePage),
+});

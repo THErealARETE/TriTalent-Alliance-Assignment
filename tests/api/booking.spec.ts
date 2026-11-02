@@ -1,5 +1,5 @@
 import { type Booking, type CreateBookingResponse } from '../../api/types';
-import { expect, test } from '../../fixtures/api';
+import { expect, test } from '../../fixtures';
 import { buildBooking } from '../../test-data/bookings';
 
 test('a created booking can be fetched by id with every field unchanged', async ({ bookingClient }) => {

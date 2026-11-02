@@ -12,4 +12,3 @@ export const test = base.extend<ApiFixtures>({
     await client.deleteCreated({ username: env.booker.username, password: env.booker.password });
   },
 });
-export { expect } from '@playwright/test';

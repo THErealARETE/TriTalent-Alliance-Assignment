@@ -1,8 +1,6 @@
 import { env } from '../../config/env';
-import { expect, test } from '../../fixtures/pages';
-
-const CUSTOMER = { firstName: 'Test', lastName: 'User', postalCode: '12345' };
-const PRODUCTS = ['Sauce Labs Backpack', 'Sauce Labs Bike Light'];
+import { expect, test } from '../../fixtures';
+import { CUSTOMER, PRODUCTS } from '../../test-data/checkout';
 
 test('standard_user can check out two products and the item total matches their prices', async ({
   loginPage,
