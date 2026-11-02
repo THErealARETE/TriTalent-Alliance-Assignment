@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { env } from './config/env';
 
 export default defineConfig({
   testDir: './tests',
@@ -23,7 +24,7 @@ export default defineConfig({
       testDir: './tests/ui',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'https://www.saucedemo.com',
+        baseURL: env.sauce.baseUrl,
         // saucedemo marks elements with data-test, so getByTestId() targets that attribute.
         testIdAttribute: 'data-test',
       },
@@ -32,7 +33,7 @@ export default defineConfig({
       name: 'api',
       testDir: './tests/api',
       use: {
-        baseURL: 'https://restful-booker.herokuapp.com',
+        baseURL: env.booker.baseUrl,
         // Restful-booker answers 418 when no Accept header is sent, so ask for JSON explicitly.
         extraHTTPHeaders: { Accept: 'application/json' },
       },

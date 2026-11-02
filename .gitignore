@@ -5,3 +5,6 @@ blob-report/
 playwright/.cache/
 allure-results/
 allure-report/
+
+# Local secrets. Commit .env.example instead.
+.env

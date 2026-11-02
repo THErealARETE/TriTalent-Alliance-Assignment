@@ -1,6 +1,6 @@
+import { env } from '../../config/env';
 import { expect, test } from '../../fixtures/pages';
 
-const USER = { username: 'standard_user', password: 'secret_sauce' };
 const CUSTOMER = { firstName: 'Test', lastName: 'User', postalCode: '12345' };
 const PRODUCTS = ['Sauce Labs Backpack', 'Sauce Labs Bike Light'];
 
@@ -14,7 +14,7 @@ test('standard_user can check out two products and the item total matches their 
 }) => {
   await test.step('log in', async () => {
     await loginPage.goto();
-    await loginPage.login(USER.username, USER.password);
+    await loginPage.login(env.sauce.username, env.sauce.password);
     await expect(inventoryPage.title).toHaveText('Products');
   });
 
