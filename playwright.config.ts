@@ -14,7 +14,12 @@ export default defineConfig({
     {
       name: 'ui',
       testDir: './tests/ui',
-      use: { ...devices['Desktop Chrome'], baseURL: 'https://www.saucedemo.com' },
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'https://www.saucedemo.com',
+        // saucedemo marks elements with data-test, so getByTestId() targets that attribute.
+        testIdAttribute: 'data-test',
+      },
     },
     {
       name: 'api',
