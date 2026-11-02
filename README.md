@@ -1,6 +1,6 @@
 # Playwright + TypeScript take-home
 
-Requires Node.js 18 or newer.
+Requires Node.js 20 or newer (the minimum for Playwright 1.64, which meets the brief's "Node 18 or newer").
 
 ```bash
 npm install
