@@ -24,11 +24,11 @@ test('standard_user can check out two products and the item total matches their 
       expectedTotal += await inventoryPage.priceOf(product);
       await inventoryPage.addToCart(product);
     }
-    await expect(inventoryPage.cartBadge).toHaveText(String(PRODUCTS.length));
+    await expect(inventoryPage.header.cartBadge).toHaveText(String(PRODUCTS.length));
   });
 
   await test.step('check out', async () => {
-    await inventoryPage.openCart();
+    await inventoryPage.header.openCart();
     await expect(cartPage.itemNames).toHaveText(PRODUCTS);
     await cartPage.checkout();
     await checkoutInformationPage.submit(CUSTOMER);

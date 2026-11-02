@@ -1,15 +1,14 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { HeaderComponent } from '../components/HeaderComponent';
 import { toCents } from '../utils/price';
 
 export class InventoryPage {
+  readonly header: HeaderComponent;
   readonly title: Locator;
-  readonly cartBadge: Locator;
-  private readonly cartLink: Locator;
 
   constructor(private readonly page: Page) {
+    this.header = new HeaderComponent(page);
     this.title = page.getByTestId('title');
-    this.cartBadge = page.getByTestId('shopping-cart-badge');
-    this.cartLink = page.getByTestId('shopping-cart-link');
   }
 
   private item(name: string): Locator {
@@ -27,10 +26,7 @@ export class InventoryPage {
   async addToCart(name: string): Promise<void> {
     const item = this.item(name);
     await item.getByRole('button', { name: 'Add to cart' }).click();
+    // Wait for the cart to register the item before the next action.
     await expect(item.getByRole('button', { name: 'Remove' })).toBeVisible();
-  }
-
-  async openCart(): Promise<void> {
-    await this.cartLink.click();
   }
 }
