@@ -10,5 +10,3 @@ export type Booking = {
 };
 
 export type CreateBookingResponse = { bookingid: number; booking: Booking };
-
-export type Credentials = { username: string; password: string };

@@ -8,6 +8,8 @@ if (existsSync(envFile)) {
   process.loadEnvFile(envFile);
 }
 
+export type Credentials = { username: string; password: string };
+
 function required(name: string): string {
   const value = process.env[name];
   if (!value) {
@@ -29,12 +31,10 @@ function url(name: string): string {
 export const env = Object.freeze({
   sauce: {
     baseUrl: url('SAUCE_BASE_URL'),
-    username: required('SAUCE_USERNAME'),
-    password: required('SAUCE_PASSWORD'),
+    credentials: { username: required('SAUCE_USERNAME'), password: required('SAUCE_PASSWORD') },
   },
   booker: {
     baseUrl: url('BOOKER_BASE_URL'),
-    username: required('BOOKER_USERNAME'),
-    password: required('BOOKER_PASSWORD'),
+    credentials: { username: required('BOOKER_USERNAME'), password: required('BOOKER_PASSWORD') },
   },
 });

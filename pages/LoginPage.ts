@@ -1,4 +1,5 @@
 import { type Locator, type Page } from '@playwright/test';
+import { type Credentials } from '../config/env';
 
 export class LoginPage {
   private readonly username: Locator;
@@ -15,7 +16,7 @@ export class LoginPage {
     await this.page.goto('/');
   }
 
-  async login(username: string, password: string): Promise<void> {
+  async login({ username, password }: Credentials): Promise<void> {
     await this.username.fill(username);
     await this.password.fill(password);
     await this.loginButton.click();

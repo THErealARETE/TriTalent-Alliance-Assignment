@@ -2,7 +2,7 @@ import { env } from '../../config/env';
 import { expect, test } from '../../fixtures';
 import { CUSTOMER, PRODUCTS } from '../../test-data/checkout';
 
-test('standard_user can check out two products and the item total matches their prices', async ({
+test('a standard user can check out two products and the item total matches their prices', async ({
   loginPage,
   inventoryPage,
   cartPage,
@@ -12,7 +12,7 @@ test('standard_user can check out two products and the item total matches their 
 }) => {
   await test.step('log in', async () => {
     await loginPage.goto();
-    await loginPage.login(env.sauce.username, env.sauce.password);
+    await loginPage.login(env.sauce.credentials);
     await expect(inventoryPage.title).toHaveText('Products');
   });
 

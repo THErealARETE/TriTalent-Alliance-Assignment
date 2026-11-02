@@ -9,6 +9,6 @@ export const test = base.extend<ApiFixtures>({
     const client = new BookingClient(request);
     await use(client);
     // Teardown runs even when the test fails, so no test data is left behind.
-    await client.deleteCreated({ username: env.booker.username, password: env.booker.password });
+    await client.deleteCreated(env.booker.credentials);
   },
 });

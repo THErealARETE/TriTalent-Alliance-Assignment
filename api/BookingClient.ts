@@ -1,6 +1,7 @@
 import { type APIRequestContext, type APIResponse } from '@playwright/test';
 import { readJson } from './readJson';
-import { type Booking, type CreateBookingResponse, type Credentials } from './types';
+import { type Credentials } from '../config/env';
+import { type Booking, type CreateBookingResponse } from './types';
 
 // Retry dropped connections (ECONNRESET) to the shared public API. HTTP error
 // statuses are never retried, so a real 4xx/5xx still reaches the test.
