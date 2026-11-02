@@ -1,5 +1,6 @@
 import { type APIRequestContext, type APIResponse } from '@playwright/test';
-import { type Booking, type Credentials } from './types';
+import { readJson } from './readJson';
+import { type Booking, type CreateBookingResponse, type Credentials } from './types';
 
 // Retry dropped connections (ECONNRESET) to the shared public API. HTTP error
 // statuses are never retried, so a real 4xx/5xx still reaches the test.
@@ -18,7 +19,7 @@ export class BookingClient {
   async create(booking: Booking): Promise<APIResponse> {
     const response = await this.request.post('/booking', { data: booking, maxRetries: NETWORK_RETRIES });
     if (response.ok()) {
-      const { bookingid } = await response.json();
+      const { bookingid } = await readJson<CreateBookingResponse>(response);
       this.createdIds.push(bookingid);
     }
     return response;
@@ -49,7 +50,7 @@ export class BookingClient {
   private async authenticate(credentials: Credentials): Promise<string> {
     const response = await this.request.post('/auth', { data: credentials, maxRetries: NETWORK_RETRIES });
     // Bad credentials still return 200, with { reason: "Bad credentials" } instead of a token.
-    const body: { token?: string; reason?: string } = await response.json();
+    const body = await readJson<{ token?: string; reason?: string }>(response);
     if (!response.ok() || !body.token) {
       throw new Error(`Authentication failed: ${response.status()} ${body.reason ?? ''}`.trim());
     }

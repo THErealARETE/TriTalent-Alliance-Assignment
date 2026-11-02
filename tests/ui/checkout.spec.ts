@@ -17,6 +17,7 @@ test('standard_user can check out two products and the item total matches their 
   });
 
   let expectedTotal = 0;
+
   await test.step('add products to the cart', async () => {
     for (const product of PRODUCTS) {
       expectedTotal += await inventoryPage.priceOf(product);

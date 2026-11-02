@@ -9,11 +9,7 @@ export default defineConfig({
   // A test that passes on retry is reported as "flaky" rather than hidden.
   // Locally there are no retries, so flakiness shows up immediately.
   retries: process.env.CI ? 2 : 0,
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ['allure-playwright', { resultsDir: 'allure-results' }],
-  ],
+  reporter: [['list'], ['html', { open: 'never' }], ['allure-playwright', { resultsDir: 'allure-results' }]],
   use: {
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
