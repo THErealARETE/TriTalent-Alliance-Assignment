@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test';
 import { CartPage } from '../../pages/CartPage';
-import { CheckoutPage } from '../../pages/CheckoutPage';
+import { CheckoutCompletePage } from '../../pages/CheckoutCompletePage';
+import { CheckoutInformationPage } from '../../pages/CheckoutInformationPage';
+import { CheckoutOverviewPage } from '../../pages/CheckoutOverviewPage';
 import { InventoryPage } from '../../pages/InventoryPage';
 import { LoginPage } from '../../pages/LoginPage';
 
@@ -10,7 +12,9 @@ test('standard_user can check out two products and the item total matches their 
   const loginPage = new LoginPage(page);
   const inventoryPage = new InventoryPage(page);
   const cartPage = new CartPage(page);
-  const checkoutPage = new CheckoutPage(page);
+  const checkoutInformationPage = new CheckoutInformationPage(page);
+  const checkoutOverviewPage = new CheckoutOverviewPage(page);
+  const checkoutCompletePage = new CheckoutCompletePage(page);
 
   await test.step('log in', async () => {
     await loginPage.goto();
@@ -31,15 +35,15 @@ test('standard_user can check out two products and the item total matches their 
     await inventoryPage.openCart();
     await expect(cartPage.itemNames).toHaveText(PRODUCTS);
     await cartPage.checkout();
-    await checkoutPage.fillInformation({ firstName: 'Test', lastName: 'User', postalCode: '12345' });
+    await checkoutInformationPage.submit({ firstName: 'Test', lastName: 'User', postalCode: '12345' });
   });
 
   await test.step('item total equals the sum of the product prices', async () => {
-    expect(await checkoutPage.itemTotal()).toBe(expectedTotal);
+    expect(await checkoutOverviewPage.itemTotal()).toBe(expectedTotal);
   });
 
   await test.step('finish the order', async () => {
-    await checkoutPage.finish();
-    await expect(checkoutPage.completeHeader).toHaveText('Thank you for your order!');
+    await checkoutOverviewPage.finish();
+    await expect(checkoutCompletePage.header).toHaveText('Thank you for your order!');
   });
 });
