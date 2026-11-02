@@ -1,7 +1,18 @@
 import { expect, test } from '@playwright/test';
 
+type Booking = {
+  firstname: string;
+  lastname: string;
+  totalprice: number;
+  depositpaid: boolean;
+  bookingdates: { checkin: string; checkout: string };
+  additionalneeds?: string;
+};
+
+type CreateBookingResponse = { bookingid: number; booking: Booking };
+
 test('a created booking can be fetched by id with every field unchanged', async ({ request }) => {
-  const booking = {
+  const booking: Booking = {
     firstname: 'Jane',
     lastname: `Tester-${Date.now()}`,
     totalprice: 245,
@@ -14,13 +25,14 @@ test('a created booking can be fetched by id with every field unchanged', async 
   };
 
   const createResponse = await request.post('/booking', { data: booking });
-  expect(createResponse.status()).toBe(200);
-  const created = await createResponse.json();
+  await expect(createResponse).toBeOK();
+  const created: CreateBookingResponse = await createResponse.json();
   expect(created.bookingid).toEqual(expect.any(Number));
   expect(created.booking).toEqual(booking);
 
   const getResponse = await request.get(`/booking/${created.bookingid}`);
-  expect(getResponse.status()).toBe(200);
+  await expect(getResponse).toBeOK();
   // toEqual compares deeply, so this fails on any changed, missing or extra field.
-  expect(await getResponse.json()).toEqual(booking);
+  const fetched: Booking = await getResponse.json();
+  expect(fetched).toEqual(booking);
 });
