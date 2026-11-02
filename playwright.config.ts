@@ -24,7 +24,11 @@ export default defineConfig({
     {
       name: 'api',
       testDir: './tests/api',
-      use: { baseURL: 'https://restful-booker.herokuapp.com' },
+      use: {
+        baseURL: 'https://restful-booker.herokuapp.com',
+        // Restful-booker answers 418 when no Accept header is sent, so ask for JSON explicitly.
+        extraHTTPHeaders: { Accept: 'application/json' },
+      },
     },
   ],
 });
