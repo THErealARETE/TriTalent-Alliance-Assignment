@@ -1,4 +1,7 @@
+# Dependencies
 node_modules/
+
+# Test output and reports (generated on every run)
 test-results/
 playwright-report/
 blob-report/
@@ -8,3 +11,10 @@ allure-report/
 
 # Local secrets. Commit .env.example instead.
 .env
+.env.*
+!.env.example
+
+# Tooling and OS files
+.playwright-mcp/
+*.log
+.DS_Store
