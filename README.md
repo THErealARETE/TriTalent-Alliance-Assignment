@@ -16,7 +16,8 @@ npm run typecheck
 | Path | Purpose |
 | --- | --- |
 | `playwright.config.ts` | Two projects: `ui` (saucedemo, `data-test` as test id) and `api` (Restful-booker, JSON `Accept` header) |
-| `pages/` | Page Objects: `LoginPage`, `InventoryPage`, `CartPage`, `CheckoutPage` |
+| `pages/` | One Page Object per screen: login, inventory, cart, checkout information, overview and complete |
+| `fixtures/pages.ts` | Extends `test` so specs receive page objects as fixtures |
 | `utils/price.ts` | Parses `$29.99` into integer cents so sums are exact |
 | `tests/ui/checkout.spec.ts` | Task 1 |
 | `tests/api/booking.spec.ts` | Task 2 |
