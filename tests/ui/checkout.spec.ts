@@ -1,24 +1,20 @@
-import { expect, test } from '@playwright/test';
-import { CartPage } from '../../pages/CartPage';
-import { CheckoutCompletePage } from '../../pages/CheckoutCompletePage';
-import { CheckoutInformationPage } from '../../pages/CheckoutInformationPage';
-import { CheckoutOverviewPage } from '../../pages/CheckoutOverviewPage';
-import { InventoryPage } from '../../pages/InventoryPage';
-import { LoginPage } from '../../pages/LoginPage';
+import { expect, test } from '../../fixtures/pages';
 
+const USER = { username: 'standard_user', password: 'secret_sauce' };
+const CUSTOMER = { firstName: 'Test', lastName: 'User', postalCode: '12345' };
 const PRODUCTS = ['Sauce Labs Backpack', 'Sauce Labs Bike Light'];
 
-test('standard_user can check out two products and the item total matches their prices', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const inventoryPage = new InventoryPage(page);
-  const cartPage = new CartPage(page);
-  const checkoutInformationPage = new CheckoutInformationPage(page);
-  const checkoutOverviewPage = new CheckoutOverviewPage(page);
-  const checkoutCompletePage = new CheckoutCompletePage(page);
-
+test('standard_user can check out two products and the item total matches their prices', async ({
+  loginPage,
+  inventoryPage,
+  cartPage,
+  checkoutInformationPage,
+  checkoutOverviewPage,
+  checkoutCompletePage,
+}) => {
   await test.step('log in', async () => {
     await loginPage.goto();
-    await loginPage.login('standard_user', 'secret_sauce');
+    await loginPage.login(USER.username, USER.password);
     await expect(inventoryPage.title).toHaveText('Products');
   });
 
@@ -35,7 +31,7 @@ test('standard_user can check out two products and the item total matches their 
     await inventoryPage.openCart();
     await expect(cartPage.itemNames).toHaveText(PRODUCTS);
     await cartPage.checkout();
-    await checkoutInformationPage.submit({ firstName: 'Test', lastName: 'User', postalCode: '12345' });
+    await checkoutInformationPage.submit(CUSTOMER);
   });
 
   await test.step('item total equals the sum of the product prices', async () => {
