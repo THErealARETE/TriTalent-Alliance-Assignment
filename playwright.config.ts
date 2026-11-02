@@ -4,6 +4,9 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
+  // Retry whole tests in CI only, where shared infrastructure causes transient failures.
+  // A test that passes on retry is reported as "flaky" rather than hidden.
+  // Locally there are no retries, so flakiness shows up immediately.
   retries: process.env.CI ? 2 : 0,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
